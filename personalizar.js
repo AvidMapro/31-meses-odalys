@@ -11,7 +11,7 @@ const coverParagraphs=document.querySelectorAll('#cover > p:not(.eyebrow)');
 coverParagraphs[0].textContent=personal.introduccion;coverParagraphs[1].textContent=personal.recuerdo;coverParagraphs[2].textContent=personal.invitacion;
 document.querySelector('#ending > p:not(.eyebrow)').textContent=personal.cierre;
 document.querySelector('#ending h3').textContent=personal.despedida;
-document.querySelector('details p:last-child').textContent='Odalys lleva un vestido lavanda; Anthony, una bufanda azul. Brizna es un panda con bufanda de menta, guardián de esta fantasía. No hay enemigos ni límite de tiempo: explora a tu ritmo.';
+document.querySelector('details p:last-child').textContent='Odalys lleva un vestido lavanda; Anthony, una bufanda azul. Odany es un panda con bufanda de menta, guardián de esta fantasía. No hay enemigos ni límite de tiempo: explora a tu ritmo.';
 $('openLetter').onclick=()=>{$('letterArea').hidden=false;$('letter').textContent=personal.carta};
 function paintCharacter(context,name,x,y,size){context.fillStyle='#182b3433';context.fillRect(Math.round(x-10),Math.round(y+17),22,4);sprites[name].forEach((r,j)=>[...r].forEach((c,i)=>{if(palette[c]){context.fillStyle=palette[c];context.fillRect(Math.round(x+(i-6)*size),Math.round(y+(j-8)*size),size,size)}}))}
 sprite=function(name,x,y){paintCharacter(ctx,name,x,y,2)};
@@ -25,3 +25,9 @@ for(let x of [26,42,430,448]){block(x,88,4,71,'#376c61');for(let y=92;y<151;y+=1
 block(195,82,84,42,'#77556a');block(200,87,74,31,'#f2d4bf');block(202,89,70,27,'#ae98bf');block(232,122,8,22,'#77556a');block(223,142,27,3,'#77556a');
 paintCharacter(sc,'odalys',145,145,2);paintCharacter(sc,'panda',242,151,2);paintCharacter(sc,'anthony',336,145,2);
 for(let i=0;i<7;i++){block(77+i*52,165,3,6,'#52846c');block(74+i*52,161,9,5,i%2?'#ecc2ba':'#f4dfa4')}
+
+function nombrePanda(texto){return typeof texto==='string'?texto.replace(/\bBrizna\b/g,'Odany').replace(/\bBRIZNA\b/g,'ODANY'):texto}
+const dialogoOriginal=say;
+say=function(voz,lineas,alCerrar){return dialogoOriginal(nombrePanda(voz),lineas.map(nombrePanda),alCerrar)};
+const rotuloOriginal=ctx.fillText.bind(ctx);
+ctx.fillText=function(texto,...args){return rotuloOriginal(nombrePanda(texto),...args)};
